@@ -85,7 +85,8 @@ int main(){
 
   double tol=1e-7;
 
-  double t=0, dt=1e-5;
+  double t=0.;
+  double dt=1e-5;
 
   const double T = 17.0652165;
 
@@ -100,9 +101,9 @@ int main(){
   tem_dx=0.;
   tem_dy=0.;
 
-  int count =0;
 
-  while(t<T){
+
+  while(t<=T){
 
      cout << t << "\t" << dt << "\t" << x << "\t" << y << "\t" << dx << "\t" << dy << endl;
 
@@ -117,18 +118,13 @@ int main(){
      y += dt*(5179./57600.)*k1[1] + dt*(7571./16695.)*k3[1] + dt*(393./640.)*k4[1] - dt*(92097./339200.)*k5[1] + dt*(187./2100.)*k6[1] + dt*(1./40.)*k7[1];
      dx += dt*(5179./57600.)*k1[2] + dt*(7571./16695.)*k3[2] + dt*(393./640.)*k4[2] - dt*(92097./339200.)*k5[2] + dt*(187./2100.)*k6[2] + dt*(1./40.)*k7[2];
      dy += dt*(5179./57600.)*k1[3] + dt*(7571./16695.)*k3[3] + dt*(393./640.)*k4[3] - dt*(92097./339200.)*k5[3] + dt*(187./2100.)*k6[3] + dt*(1./40.)*k7[3];
-
-
-     t += dt;
+     
      max(var,abs(x - tem_x),abs(y - tem_y),abs(dx - tem_dx),abs(dy - tem_dy));
+     dt=0.5*dt*pow((tol/var),1./5.);
+     t+=dt;
 
-     dt=0.9*dt*pow((tol/var),1./5.);
-
-     count++;
   }
   cout << t << "\t" << dt << "\t" << x << "\t" << y << "\t" << dx << "\t" << dy << endl;
-
-  cerr << "# steps : " << count << endl;
 
   return 0;
 }
